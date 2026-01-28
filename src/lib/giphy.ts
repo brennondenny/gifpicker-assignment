@@ -10,9 +10,7 @@ const GIPHY_BASE_URL = "https://api.giphy.com/v1/gifs";
 const API_KEY = process.env.NEXT_PUBLIC_GIPHY_API_KEY;
 
 const DEFAULT_RESULTS_PER_PAGE = 20;
-
-//GIFS for 3 before search
-const MAX_RANDOM_GIFS = 3;
+const MAX_RANDOM_GIFS = 10;
 
 export async function searchGifs(
   query: string,
@@ -102,6 +100,10 @@ export async function getTrendingGifs(
 export async function getRandomGifs(count: number = 3): Promise<GiphyGif[]> {
   if (!API_KEY) {
     throw new Error("Missing GIPHY API key");
+  }
+
+  if (count > MAX_RANDOM_GIFS) {
+    throw new Error(`getRandomGifs ${count} over ${MAX_RANDOM_GIFS}`);
   }
 
   try {
