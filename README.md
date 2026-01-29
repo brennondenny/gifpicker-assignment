@@ -1,19 +1,24 @@
-### Requirements
-- GIFs should render using the MP4 format [x]
-- App should load in under 1.5s [x]
-- It should work in the most modern browsers [x]
-- Enough styling that the app is usable and presentable [x]
-- Must be built using React (Next.js is allowed) [x]
-- An AJAX/Fetch library as well as a utility library for things like encoding query parameters or debouncing/throttling is acceptable. No other libraries or plugins are acceptable. [x]
-- A publicly available URL where the app will live through a service like netlify, vercel, surge, or similar. [x]
-- A user should have a clear way to search for GIFs. [x]
-- A user should be able to search for gifs through the URL. [x]
-- A user should be able to easily copy the GIF URL to a chat program. [x]
-- Implementation is built using Typescript. [x] 
-- An alert is shown once a GIF URL is copied. [x]
-- A user should get results shortly after they're finished typing. [x]
-- A user should be able to cycle through many GIFs for each search query. [x]
-- A user should be alerted when the API limit is reached. [x]
-- A user should be able to see previous results even after the API limit is 
-reached. [x]
-- A user should be able to see 3 random gifs before searching. [x]
+# GIF Picker
+
+## Features & Requirements
+- GIF render using MP4 format
+- App loads under 1.5s
+- Supports Modern Browsers
+- App is styled to be usable and presentable
+- Built using React / Next.js
+- A publicly available via Vercel (https://gifpicker-assignment.vercel.app/)
+- Clear way to search for GIFS
+- Able to search via the URL
+- Easily copy GIF URLs
+### Nice to Have
+- Built using Typescript
+- Alert toast upon GIF URL copy
+- Optimized Search loading
+- Abiblty to cycle through multple gifs
+- Alert state when rate limit is reached
+- Shows previous cached results once rate limit is reached
+- Shows 3 random gifs before searching
+## Bonus
+- Responsive Design
+- Optimized Lighthouse score ([lighthouse-score.pdf](https://github.com/brennondenny/gifpicker-assignment/blob/main/lighthouse_score.pdf))
+- Clear separation of concerns (lib/hooks/components)
