@@ -5,7 +5,6 @@
 }
 
 html {
-    font-size: 16px;
     line-height: 1.5;
 }
 
@@ -38,7 +37,99 @@ h1 {
     background-clip: text;
 }
 
-p {
-    font-size: 1.2rem;
+.subtitle {
+    font-size: 1.1rem;
     color: #888888;
+    text-align: center;
+    margin-bottom: 48px;
+    font-weight: 400;
+}
+
+button {
+    font-family: inherit;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    background: none;
+    color: inherit;
+    font-size: inherit;
+}
+
+button:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+a {
+    color: #00ff22;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Loading spinner */
+.spinner {
+    border: 2px solid #333333;
+    border-top: 2px solid #00ff22;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.error {
+    color: #ff6b6b;
+    text-align: center;
+    padding: 16px;
+    background: rgba(255, 107, 107, 0.1);
+    border-radius: 8px;
+    margin: 24px 0;
+    border: 1px solid rgba(255, 107, 107, 0.2);
+}
+
+.empty {
+    text-align: center;
+    padding: 48px 24px;
+    color: #888888;
+}
+
+.empty h3 {
+    font-size: 1.25rem;
+    margin-bottom: 8px;
+    color: #cccccc;
+}
+
+.loadMore {
+    display: block;
+    margin: 32px auto 0;
+    padding: 12px 32px;
+    background: #00ff22;
+    color: #121212;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 16px;
+    transition: all 0.2s ease;
+    min-width: 120px;
+}
+
+.loadMore:hover:not(:disabled) {
+    background: #00ff22;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 217, 255, 0.3);
+}
+
+.loadMore:active:not(:disabled) {
+    transform: translateY(0);
 }

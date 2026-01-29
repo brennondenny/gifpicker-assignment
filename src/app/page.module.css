@@ -8,105 +8,76 @@
     margin-bottom: 32px;
 }
 
-.intro h1 {
-  max-width: 320px;
-  font-size: 40px;
-  font-weight: 600;
-  line-height: 48px;
-  letter-spacing: -2.4px;
-  text-wrap: balance;
-  color: var(--text-primary);
-}
-
-.intro p {
-  max-width: 440px;
-  font-size: 18px;
-  line-height: 32px;
-  text-wrap: balance;
-  color: var(--text-secondary);
-}
-
-.intro a {
-  font-weight: 500;
-  color: var(--text-primary);
-}
-
-.ctas {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  max-width: 440px;
-  gap: 16px;
-  font-size: 14px;
-}
-
-.ctas a {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 40px;
-  padding: 0 16px;
-  border-radius: 128px;
-  border: 1px solid transparent;
-  transition: 0.2s;
-  cursor: pointer;
-  width: fit-content;
-  font-weight: 500;
-}
-
-a.primary {
-  background: var(--text-primary);
-  color: var(--background);
-  gap: 8px;
-}
-
-a.secondary {
-  border-color: var(--button-secondary-border);
-}
-
-/* Enable hover only on non-touch devices */
-@media (hover: hover) and (pointer: fine) {
-  a.primary:hover {
-    background: var(--button-primary-hover);
-    border-color: transparent;
-  }
-
-  a.secondary:hover {
-    background: var(--button-secondary-hover);
-    border-color: transparent;
-  }
-}
-
-@media (max-width: 600px) {
-  .main {
+.loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     padding: 48px 24px;
-  }
-
-  .intro {
     gap: 16px;
-  }
-
-  .intro h1 {
-    font-size: 32px;
-    line-height: 40px;
-    letter-spacing: -1.92px;
-  }
 }
 
-@media (prefers-color-scheme: dark) {
-  .logo {
-    filter: invert();
-  }
+.loading p {
+    color: #888888;
+    font-size: 16px;
+}
 
-  .page {
-    --background: #000;
-    --foreground: #000;
+.loadingMore {
+    display: flex;
+    justify-content: center;
+    padding: 24px;
+}
 
-    --text-primary: #ededed;
-    --text-secondary: #999;
+.dismissButton {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    margin-top: 12px;
+    transition: all 0.2s ease;
+}
 
-    --button-primary-hover: #ccc;
-    --button-secondary-hover: #1a1a1a;
-    --button-secondary-border: #1a1a1a;
-  }
+.dismissButton:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.dismissButton:focus {
+    outline: 2px solid #00ff22;
+    outline-offset: 2px;
+}
+
+@media (max-width: 768px) {
+    .header {
+        margin-bottom: 24px;
+    }
+
+    .loading {
+        padding: 32px 16px;
+    }
+
+    .loading p {
+        font-size: 14px;
+    }
+
+    .loadingMore {
+        padding: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .header {
+        margin-bottom: 20px;
+    }
+
+    .loading {
+        padding: 24px 12px;
+    }
+
+    .dismissButton {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
 }

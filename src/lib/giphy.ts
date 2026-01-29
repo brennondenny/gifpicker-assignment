@@ -26,6 +26,7 @@ export async function searchGifs(
   url.searchParams.append("q", query);
   url.searchParams.append("limit", limit.toString());
   url.searchParams.append("offset", offset.toString());
+  url.searchParams.append("rating", "g");
   url.searchParams.append("lang", "en");
 
   try {
@@ -67,6 +68,7 @@ export async function getTrendingGifs(
   const url = new URL(`${GIPHY_BASE_URL}/trending`);
   url.searchParams.append("api_key", API_KEY);
   url.searchParams.append("limit", limit.toString());
+  url.searchParams.append("rating", "g");
 
   try {
     const response = await fetch(url.toString());
@@ -110,6 +112,7 @@ export async function getRandomGifs(count: number = 3): Promise<GiphyGif[]> {
     const promises = Array.from({ length: count }, async () => {
       const url = new URL(`${GIPHY_BASE_URL}/random`);
       url.searchParams.append("api_key", API_KEY);
+      url.searchParams.append("rating", "g");
 
       const response = await fetch(url.toString());
 
