@@ -7,7 +7,7 @@
 - An AJAX/Fetch library as well as a utility library for things like encoding query parameters or debouncing/throttling is acceptable. No other libraries or plugins are acceptable. [x]
 - A publicly available URL where the app will live through a service like netlify, vercel, surge, or similar. []
 - A user should have a clear way to search for GIFs. [x]
-- A user should be able to search for gifs through the URL. []
+- A user should be able to search for gifs through the URL. [x]
 - A user should be able to easily copy the GIF URL to a chat program. [x]
 - Implementation is built using Typescript. [x] 
 - An alert is shown once a GIF URL is copied. [x]

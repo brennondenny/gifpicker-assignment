@@ -49,6 +49,14 @@
     outline-offset: 2px;
 }
 
+.errorImage {
+    display: block;
+    margin: 0 auto 16px;
+    max-width: 200px;
+    height: auto;
+    border-radius: 8px;
+}
+
 @media (max-width: 768px) {
     .header {
         margin-bottom: 24px;

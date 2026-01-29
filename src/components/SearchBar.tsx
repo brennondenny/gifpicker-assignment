@@ -23,9 +23,10 @@ function SearchBarContent({ onSearch }: SearchBarProps) {
   React.useEffect(() => {
     if (!hasTriggeredInitialSearch.current && urlQuery) {
       hasTriggeredInitialSearch.current = true;
+      lastProcessedQuery.current = urlQuery;
       onSearch(urlQuery);
     }
-  }, []);
+  }, [urlQuery, onSearch]);
 
   React.useEffect(() => {
     if (debouncedQuery === lastProcessedQuery.current) {
@@ -43,7 +44,7 @@ function SearchBarContent({ onSearch }: SearchBarProps) {
     router.replace(newUrl, { scroll: false });
 
     onSearch(debouncedQuery.trim());
-  }, [debouncedQuery]);
+  }, [debouncedQuery, router, onSearch]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
@@ -75,7 +76,7 @@ function SearchBarContent({ onSearch }: SearchBarProps) {
             onClick={handleClear}
             className={styles.clearButton}
           >
-            clear
+            ✖︎
           </button>
         )}
       </div>

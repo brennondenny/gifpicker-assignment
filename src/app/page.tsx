@@ -1,6 +1,8 @@
 "use client";
 
-import React, { useEffect, useRef, useCallback } from "react";
+import React, { useEffect, useRef, useCallback, Suspense } from "react";
+import Image from "next/image";
+import { useSearchParams } from "next/navigation";
 import SearchBar from "../components/SearchBar";
 import GifGrid from "../components/GifGrid";
 import Toast from "../components/Toast";
@@ -8,7 +10,10 @@ import { useGifSearch } from "../hooks/useGifSearch";
 import { useToast } from "../hooks/useToast";
 import styles from "./page.module.css";
 
-export default function HomePage() {
+function HomePageContent() {
+  const searchParams = useSearchParams();
+  const urlQuery = searchParams.get("q") || "";
+
   const {
     gifs,
     loading,
@@ -27,9 +32,12 @@ export default function HomePage() {
   useEffect(() => {
     if (!hasInitialized.current) {
       hasInitialized.current = true;
-      loadInitialGifs();
+      // only load initial GIFs if there's no URL query parameter
+      if (!urlQuery.trim()) {
+        loadInitialGifs();
+      }
     }
-  }, [loadInitialGifs]);
+  }, [loadInitialGifs, urlQuery]);
 
   const handleSearch = useCallback(
     (query: string) => {
@@ -64,6 +72,17 @@ export default function HomePage() {
 
       {error && (
         <div className="error" role="alert" aria-live="polite">
+          {(error.toLowerCase().includes("rate limit") ||
+            error.toLowerCase().includes("429")) && (
+            <Image
+              src="/mad-cat.gif"
+              alt="Rate limit exceeded"
+              width={200}
+              height={200}
+              className={styles.errorImage}
+              unoptimized
+            />
+          )}
           <p>{error}</p>
           <button onClick={handleClearError} className={styles.dismissButton}>
             Dismiss
@@ -80,8 +99,16 @@ export default function HomePage() {
 
       {!loading && gifs.length === 0 && !error && (
         <div className="empty" role="status">
+          <Image
+            src="/sad-cat.gif"
+            alt="No results found"
+            width={200}
+            height={200}
+            className={styles.errorImage}
+            unoptimized
+          />
           <h3>No GIFs found</h3>
-          <p>Try searching again</p>
+          <p>Try a different search</p>
         </div>
       )}
 
@@ -110,5 +137,26 @@ export default function HomePage() {
 
       <Toast message={message} isVisible={isVisible} />
     </main>
+  );
+}
+
+export default function HomePage() {
+  return (
+    <Suspense
+      fallback={
+        <main className={styles.main}>
+          <header className={styles.header}>
+            <h1>GIF Picker</h1>
+            <p className="subtitle">Search and share GIFs from GIPHY</p>
+          </header>
+          <div className={styles.loading} aria-live="polite">
+            <div className="spinner" />
+            <p>Loading...</p>
+          </div>
+        </main>
+      }
+    >
+      <HomePageContent />
+    </Suspense>
   );
 }
