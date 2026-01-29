@@ -6,6 +6,12 @@ const GIFS_PER_PAGE = 20;
 const MAX_DUPLICATE_RETRY_ATTEMPTS = 3;
 const INITIAL_RANDOM_GIFS_COUNT = 3;
 
+interface CacheEntry {
+  gifs: GiphyGif[];
+  totalCount: number;
+  offset: number;
+}
+
 interface UseGifSearchState {
   gifs: GiphyGif[];
   loading: boolean;
@@ -32,11 +38,15 @@ export function useGifSearch(): UseGifSearchReturn {
   });
 
   // Cache by query string
-  const cache = useRef<Map<string, SearchResult>>(new Map());
+  const cache = useRef<Map<string, CacheEntry>>(new Map());
   const currentQuery = useRef<string>("");
 
   const loadInitialGifs = useCallback(async () => {
-    setState((prev) => ({ ...prev, loading: true, error: null }));
+    setState((prev) => ({
+      ...prev,
+      loading: true,
+      error: null,
+    }));
 
     try {
       let gifs: GiphyGif[];
@@ -102,10 +112,6 @@ export function useGifSearch(): UseGifSearchReturn {
             result = await searchGifs(query, searchOffset, GIFS_PER_PAGE);
           }
 
-          if (isNewSearch && attempts === 0) {
-            cache.current.set(cacheKey, result);
-          }
-
           if (isNewSearch) {
             uniqueGifs = result.gifs;
           } else {
@@ -134,37 +140,64 @@ export function useGifSearch(): UseGifSearchReturn {
           uniqueGifs.length > 0 &&
           newGifs.length < result!.totalCount;
 
+        const newOffset = result!.offset + result!.gifs.length;
+
+        if (isNewSearch) {
+          cache.current.set(cacheKey, {
+            gifs: newGifs,
+            totalCount: result!.totalCount,
+            offset: newOffset,
+          });
+        } else {
+          cache.current.set(cacheKey, {
+            gifs: newGifs,
+            totalCount: result!.totalCount,
+            offset: newOffset,
+          });
+        }
+
         setState((prev) => ({
           ...prev,
           gifs: newGifs,
           loading: false,
           hasMore,
           totalCount: result!.totalCount,
-          offset: result!.offset + result!.gifs.length,
+          offset: newOffset,
         }));
 
         currentQuery.current = query;
       } catch (error) {
         if (error instanceof RateLimitError) {
           const cachedResult = cache.current.get(cacheKey);
-          if (cachedResult && isNewSearch) {
-            setState((prev) => ({
-              ...prev,
-              gifs: cachedResult.gifs,
-              loading: false,
-              hasMore: false,
-              totalCount: cachedResult.totalCount,
-              offset: cachedResult.offset,
-              error: "Rate limit reached, now showing cached results",
-            }));
+
+          if (cachedResult) {
+            if (isNewSearch) {
+              setState((prev) => ({
+                ...prev,
+                gifs: cachedResult.gifs,
+                loading: false,
+                hasMore: false,
+                totalCount: cachedResult.totalCount,
+                offset: cachedResult.offset,
+                error: null,
+              }));
+            } else {
+              setState((prev) => ({
+                ...prev,
+                loading: false,
+                hasMore: false,
+                error: null,
+              }));
+            }
             return;
           }
 
+          // If no cache available thne show error
           setState((prev) => ({
             ...prev,
             loading: false,
             hasMore: false,
-            error: "Rate limit exceeded",
+            error: "Rate limit exceeded. Please try again later.",
           }));
         } else {
           setState((prev) => ({
@@ -173,8 +206,8 @@ export function useGifSearch(): UseGifSearchReturn {
             hasMore: false,
             error:
               error instanceof Error
-                ? `performSearch error: ${error.message}`
-                : "performSearch error",
+                ? `Search error: ${error.message}`
+                : "An error occurred while searching",
           }));
         }
       }
