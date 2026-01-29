@@ -19,7 +19,6 @@ interface UseGifSearchReturn extends UseGifSearchState {
   searchGifs: (query: string, reset?: boolean) => Promise<void>;
   loadMore: () => Promise<void>;
   loadInitialGifs: () => Promise<void>;
-  clearError: () => void;
 }
 
 export function useGifSearch(): UseGifSearchReturn {
@@ -35,10 +34,6 @@ export function useGifSearch(): UseGifSearchReturn {
   // Cache by query string
   const cache = useRef<Map<string, SearchResult>>(new Map());
   const currentQuery = useRef<string>("");
-
-  const clearError = useCallback(() => {
-    setState((prev) => ({ ...prev, error: null }));
-  }, []);
 
   const loadInitialGifs = useCallback(async () => {
     setState((prev) => ({ ...prev, loading: true, error: null }));
@@ -204,6 +199,5 @@ export function useGifSearch(): UseGifSearchReturn {
     searchGifs: searchGifsCallback,
     loadMore,
     loadInitialGifs,
-    clearError,
   };
 }

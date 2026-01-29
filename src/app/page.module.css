@@ -28,27 +28,6 @@
     padding: 24px;
 }
 
-.dismissButton {
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: #ffffff;
-    padding: 8px 16px;
-    border-radius: 6px;
-    font-size: 14px;
-    margin-top: 12px;
-    transition: all 0.2s ease;
-}
-
-.dismissButton:hover {
-    background: rgba(255, 255, 255, 0.2);
-    border-color: rgba(255, 255, 255, 0.3);
-}
-
-.dismissButton:focus {
-    outline: 2px solid #00ff22;
-    outline-offset: 2px;
-}
-
 .errorImage {
     display: block;
     margin: 0 auto 16px;
@@ -82,10 +61,5 @@
 
     .loading {
         padding: 24px 12px;
-    }
-
-    .dismissButton {
-        padding: 6px 12px;
-        font-size: 12px;
     }
 }

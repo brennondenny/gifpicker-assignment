@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useRef, useCallback, Suspense } from "react";
-import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import SearchBar from "../components/SearchBar";
 import GifGrid from "../components/GifGrid";
@@ -22,7 +21,6 @@ function HomePageContent() {
     searchGifs,
     loadMore,
     loadInitialGifs,
-    clearError,
   } = useGifSearch();
 
   const { message, isVisible, show: showToast } = useToast();
@@ -58,10 +56,6 @@ function HomePageContent() {
     loadMore();
   }, [loadMore]);
 
-  const handleClearError = useCallback(() => {
-    clearError();
-  }, [clearError]);
-
   return (
     <main className={styles.main}>
       <header className={styles.header}>
@@ -71,27 +65,32 @@ function HomePageContent() {
       </header>
 
       {error && (
-        <div className="error" role="alert" aria-live="polite">
+        <div className="empty" role="alert">
           {(error.toLowerCase().includes("rate limit") ||
             error.toLowerCase().includes("429")) && (
-            <Image
-              src="/mad-cat.gif"
-              alt="Rate limit exceeded"
+            <video
+              className={styles.errorImage}
+              src="/mad-cat.mp4"
               width={200}
               height={200}
-              className={styles.errorImage}
-              unoptimized
+              autoPlay
+              loop
+              muted
+              playsInline
             />
           )}
+          <h3>
+            {error.toLowerCase().includes("rate limit") ||
+            error.toLowerCase().includes("429")
+              ? "Please try again later"
+              : "Error"}
+          </h3>
           <p>{error}</p>
-          <button onClick={handleClearError} className={styles.dismissButton}>
-            Dismiss
-          </button>
         </div>
       )}
 
       {loading && gifs.length === 0 && (
-        <div className={styles.loading} aria-live="polite">
+        <div className={styles.loading}>
           <div className="spinner" />
           <p>Loading GIFs...</p>
         </div>
@@ -99,13 +98,15 @@ function HomePageContent() {
 
       {!loading && gifs.length === 0 && !error && (
         <div className="empty" role="status">
-          <Image
-            src="/sad-cat.gif"
-            alt="No results found"
+          <video
+            className={styles.errorImage}
+            src="/sad-cat.mp4"
             width={200}
             height={200}
-            className={styles.errorImage}
-            unoptimized
+            autoPlay
+            loop
+            muted
+            playsInline
           />
           <h3>No GIFs found</h3>
           <p>Try a different search</p>
@@ -127,7 +128,7 @@ function HomePageContent() {
           )}
 
           {loading && gifs.length > 0 && (
-            <div className={styles.loadingMore} aria-live="polite">
+            <div className={styles.loadingMore}>
               <div className="spinner" />
               <span>Loading GIFs...</span>
             </div>
@@ -149,7 +150,7 @@ export default function HomePage() {
             <h1>GIF Picker</h1>
             <p className="subtitle">Search and share GIFs from GIPHY</p>
           </header>
-          <div className={styles.loading} aria-live="polite">
+          <div className={styles.loading}>
             <div className="spinner" />
             <p>Loading...</p>
           </div>
